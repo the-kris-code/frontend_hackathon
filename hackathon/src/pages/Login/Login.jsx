@@ -3,18 +3,25 @@ import styled from 'styled-components';
 import bgImage from '../../assets/background.png';
 
 export default function Login() {
+  
+  const handleLogin = (e) => {
+    e.preventDefault();
+    console.log("Tentativa de login enviada!");
+  };
+
   return (
     <Container>
-      <LoginCard>
+      <LoginCard onSubmit={handleLogin}>
         <Title>Login</Title>
-        <Input type="text" placeholder="E-mail" />
-        <Input type="password" placeholder="Senha" />
-        <Button>Entrar</Button>
+        
+        <Input type="email" placeholder="E-mail" required />
+        <Input type="password" placeholder="Senha" required />
+        
+        <Button type="submit">Entrar</Button>
       </LoginCard>
     </Container>
   );
 }
-
 
 const Container = styled.div`
   display: flex;
@@ -42,7 +49,7 @@ const Container = styled.div`
   }
 `;
 
-const LoginCard = styled.div`
+const LoginCard = styled.form`
   background-color: #09071B; 
   padding: 50px 40px;
   border-radius: 8px;
@@ -56,7 +63,7 @@ const LoginCard = styled.div`
 
 const Title = styled.h1`
   color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 26px;
   font-weight: 600;
   margin-top: 0;
@@ -92,6 +99,6 @@ const Button = styled.button`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #00A7C4;
+    background-color: #0096B0; 
   }
 `;

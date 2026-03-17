@@ -92,7 +92,7 @@ const CadastroCard = styled.form`
 
 const Title = styled.h1`
   color: #ffffff;
-  font-family: Arial, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 26px;
   font-weight: 600;
   margin-top: 0;
