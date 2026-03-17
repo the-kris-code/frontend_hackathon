@@ -1,24 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import bgImage from '../../assets/background.png';
 
-export default function Login() {
-  
-  const handleLogin = (e) => {
+export default function Cadastro() {
+  const [step, setStep] = useState(1);
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Tentativa de login enviada!");
+    console.log("Cadastro realizado com sucesso!");
+    
   };
 
   return (
     <Container>
-      <LoginCard onSubmit={handleLogin}>
-        <Title>Login</Title>
-        
-        <Input type="email" placeholder="E-mail" required />
-        <Input type="password" placeholder="Senha" required />
-        
-        <Button type="submit">Entrar</Button>
-      </LoginCard>
+      <CadastroCard onSubmit={handleSubmit}>
+        <Title>Cadastro</Title>
+
+        {step === 1 && (
+          <>
+            <Input type="text" placeholder="Nome" required />
+            <Input type="date" placeholder="Data de nascimento" required />
+            <Input type="tel" placeholder="Telefone" required />
+            <Input type="text" placeholder="Formação" required />
+            
+            <Button type="button" onClick={() => setStep(2)}>
+              Próximo
+            </Button>
+          </>
+        )}
+
+        {step === 2 && (
+          <>
+            <Input type="text" placeholder="Especialidade" required />
+            <Input type="email" placeholder="E-mail" required />
+            <Input type="password" placeholder="Senha" required />
+            <Input type="password" placeholder="Confirme sua senha" required />
+            
+            <ButtonsRow>
+              <Button type="button" onClick={() => setStep(1)}>
+                Voltar
+              </Button>
+              <Button type="submit">
+                Cadastrar
+              </Button>
+            </ButtonsRow>
+          </>
+        )}
+      </CadastroCard>
     </Container>
   );
 }
@@ -49,7 +78,7 @@ const Container = styled.div`
   }
 `;
 
-const LoginCard = styled.form`
+const CadastroCard = styled.form`
   background-color: #09071B; 
   padding: 50px 40px;
   border-radius: 8px;
@@ -99,6 +128,16 @@ const Button = styled.button`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #0096B0; 
+    background-color: #008fa8; 
+  }
+`;
+
+const ButtonsRow = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: space-between;
+  button {
+    width: 100%; 
   }
 `;
