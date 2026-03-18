@@ -1,32 +1,64 @@
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import '@fontsource/manrope';
-import Login from './pages/Login/Login'
+import Login from './pages/Login/Login';
 import Cadastro from './pages/Cadastro/Cadastro';
+
+import PeriodoList from './pages/Periodo/List';
+import PeriodoForm from './pages/Periodo/Form';
+
+import MateriaList from './pages/Materia/List';
+import MateriaForm from './pages/Materia/Form';
+
+import TurmaList from './pages/Turma/List';
+import TurmaForm from './pages/Turma/Form';
+
 import ChatPage from './pages/Chat/Chat';
 
-function Layout() {
-  //const location = useLocation();
+import PrivateRoute from './components/PrivateRoutes';
+import MainLayout from './components/MainLayout';
+
+
+function PrivateLayout() {
   return (
-        <>
-      <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/cadastro" element={<Cadastro />} />
-          <Route path="/chat" element={<ChatPage />} />
-      </Routes>
-        </>
-  )
+    <PrivateRoute>
+      <MainLayout>
+        <Outlet />
+      </MainLayout>
+    </PrivateRoute>
+  );
 }
 
 function App() {
- // const location = useLocation();
   return (
-        <>
-      <Router>
-      <Layout />
+    <Router>
+      <Routes>
+
+        {/* PUBLICAS */}
+        <Route path="/" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+
+        {/* TODAS AS ROTAS PRIVADAS */}
+        <Route element={<PrivateLayout />}>
+
+          <Route path="/chat" element={<ChatPage />} />
+
+          <Route path="/periodos" element={<PeriodoList />} />
+          <Route path="/periodo/novo" element={<PeriodoForm />} />
+          <Route path="/periodo/:id" element={<PeriodoForm />} />
+
+          <Route path="/materias" element={<MateriaList />} />
+          <Route path="/materias/novo" element={<MateriaForm />} />
+          <Route path="/materias/:id" element={<MateriaForm />} />
+
+          <Route path="/turmas" element={<TurmaList />} />
+          <Route path="/turmas/novo" element={<TurmaForm />} />
+          <Route path="/turmas/:id" element={<TurmaForm />} />
+
+        </Route>
+
+      </Routes>
     </Router>
-        </>
-  )
+  );
 }
 
-export default App
+export default App;
