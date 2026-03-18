@@ -1,22 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import bgImage from '../../assets/background.png';
+import { AuthService } from '../../api/authService';
+import { Alert } from '../../components/SweetAlert';
+import { useNavigate } from 'react-router-dom';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
-  
-  const handleLogin = (e) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    email: "",
+    senha: ""
+  });
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Tentativa de login enviada!");
+
+    if (!form.email || !form.senha) {
+      Alert.warning("Atenção", "Preencha todos os campos");
+      return;
+    }
+
+    try {
+      const response = await AuthService.login(form);
+
+      const token = response;
+      // console.log('response', token)
+
+      AuthService.setToken(token);
+
+      Alert.success("Sucesso", "Login realizado!");
+
+      navigate("/periodos"); //definir próxima página (ver com Cris)
+    } catch (error) {
+      Alert.error("Erro", "Credenciais inválidas");
+    }
   };
 
   return (
     <Container>
       <LoginCard onSubmit={handleLogin}>
         <Title>Login</Title>
-        
-        <Input type="email" placeholder="E-mail" required />
-        <Input type="password" placeholder="Senha" required />
-        
+
+        <Input
+          type="email"
+          placeholder="E-mail"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+
+        <InputWrapper>
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Senha"
+            value={form.senha}
+            onChange={(e) => setForm({ ...form, senha: e.target.value })}
+          />
+
+          <EyeButton
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </EyeButton>
+        </InputWrapper>
+
         <Button type="submit">Entrar</Button>
       </LoginCard>
     </Container>
@@ -101,4 +151,20 @@ const Button = styled.button`
   &:hover {
     background-color: #0096B0; 
   }
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const EyeButton = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
 `;
