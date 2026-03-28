@@ -13,7 +13,7 @@ Professores da rede pública frequentemente gastam horas do seu tempo livre (fin
 
 ##  Principais Funcionalidades
 
-### 🏫 Gestão Escolar (CRUD Completo)
+### Gestão Escolar (CRUD Completo)
 Um painel administrativo intuitivo para organizar a rotina do professor:
 * **Períodos:** Cadastro e gestão de bimestres/semestres.
 * **Matérias:** Organização por áreas de conhecimento.
