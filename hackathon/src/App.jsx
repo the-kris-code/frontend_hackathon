@@ -19,6 +19,7 @@ import ChatPage from './pages/Chat/Chat';
 
 import PrivateRoute from './components/PrivateRoutes';
 import MainLayout from './components/MainLayout';
+import Perfil from './pages/Perfil/Perfil';
 
 
 function PrivateLayout() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/aulas/novo" element={<AulaForm />} />
           <Route path="/aulas/:id" element={<AulaForm />} />
 
+          <Route path="/perfil" element={<Perfil />} />
         </Route>
 
       </Routes>
