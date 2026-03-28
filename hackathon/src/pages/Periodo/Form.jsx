@@ -163,7 +163,6 @@ export default function PeriodoForm() {
     </Container>
   );
 }
-/* ===== ESTILO ===== */
 
 const Container = styled.div`
   min-height: 100vh;

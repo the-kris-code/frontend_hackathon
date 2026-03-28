@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import bgImage from '../../assets/background.png';
+import { useNavigate } from 'react-router-dom';
 
 export default function Cadastro() {
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
 
   const handleSubmit = (e) => {
@@ -47,6 +49,7 @@ export default function Cadastro() {
             </ButtonsRow>
           </>
         )}
+        <TextLogin onClick={() => navigate("/")}>Já possui conta? Faça login</TextLogin>
       </CadastroCard>
     </Container>
   );
@@ -140,4 +143,12 @@ const ButtonsRow = styled.div`
   button {
     width: 100%; 
   }
+`;
+
+const TextLogin = styled.span`
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  margin-top: 25px;
+  cursor: pointer;
 `;

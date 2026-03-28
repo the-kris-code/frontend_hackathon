@@ -111,8 +111,6 @@ export default function PeriodoList() {
   );
 }
 
-/* ===== STYLE ===== */
-
 const Container = styled.div`
   padding: 40px;
   background-color: #0b0c16;
@@ -134,8 +132,9 @@ const CreateButton = styled.button`
   color: #fff;
   border: none;
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
+  height: 50px;
 `;
 
 const FilterInput = styled.input`
@@ -144,6 +143,7 @@ const FilterInput = styled.input`
   margin-bottom: 20px;
   border-radius: 8px;
   border: none;
+  outline:none;
 `;
 
 const Loading = styled.div`
@@ -173,17 +173,17 @@ const Table = styled.table`
 
 const Status = styled.span`
   padding: 6px 12px;
-  border-radius: 12px;
-  background-color: ${(p) => (p.$active ? "#00A7C4" : "#444")};
+  border-radius: 20px;
+  background-color: ${(p) => (p.$active ? "#36753C" : "#444")};
 `;
 
 const ActionButton = styled.button`
   margin-right: 10px;
-  background-color: #4B3A71;
+  background-color: #0047C5;
   color: #fff;
   border: none;
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
 `;
 
