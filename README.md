@@ -1,4 +1,4 @@
-# frontend_hackathon# Assistente Virtual Docente 
+# Assistente Virtual Docente 
 
 Uma plataforma educacional inteligente projetada exclusivamente para **professores da rede pública de ensino básico**. 
 

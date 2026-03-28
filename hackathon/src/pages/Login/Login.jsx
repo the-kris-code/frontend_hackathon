@@ -32,7 +32,7 @@ export default function Login() {
 
       Alert.success("Sucesso", "Login realizado!");
 
-      navigate("/periodos");
+      navigate("/chat");
     } catch (error) {
       Alert.error("Erro", "Credenciais inválidas");
     }
