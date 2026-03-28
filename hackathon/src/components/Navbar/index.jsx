@@ -20,6 +20,7 @@ export default function Navbar() {
         <Item onClick={() => navigate("/periodos")}>Períodos</Item>
         <Item onClick={() => navigate("/materias")}>Matérias</Item>
         <Item onClick={() => navigate("/turmas")}>Turmas</Item>
+        <Item onClick={() => navigate("/aulas")}>Aulas</Item>
         <Item onClick={() => navigate("/chat")}>Chat</Item>
       </Menu>
 
@@ -31,8 +32,6 @@ export default function Navbar() {
     </Container>
   );
 }
-
-/* ===== STYLE ===== */
 
 const Container = styled.div`
   height: 70px;
@@ -71,14 +70,14 @@ const Right = styled.div``;
 
 const LogoutButton = styled.button`
   background-color: transparent;
-  border: 1px solid #00A7C4;
-  color: #00A7C4;
+  border: 1px solid #d33;
+  color: #d33;
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
 
   &:hover {
-    background-color: #00A7C4;
+    background-color: #d33;
     color: #fff;
   }
 `;

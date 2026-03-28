@@ -16,5 +16,5 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  padding-top: 20px;
+  // padding-top: 20px;
 `;

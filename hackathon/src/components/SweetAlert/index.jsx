@@ -48,12 +48,9 @@ const SweetAlert = () => {
       onConfirm();
     }
   };
-
-  // Esse componente não renderiza nada visual
   return null;
 };
 
-// 👇 Exporta funções para usar em qualquer lugar
 export const Alert = {
   success: (title, text) => {
     MySwal.fire({

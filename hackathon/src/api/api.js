@@ -1,12 +1,3 @@
-// import axios from "axios";
-
-// const api = axios.create({
-// // baseURL: "http://localhost:3000/api",
-// baseURL: "https://hackaton-backend-fiap.onrender.com",
-// });
-
-// export default api; 
-
 import axios from "axios";
 import { AuthService } from '../api/authService';
 

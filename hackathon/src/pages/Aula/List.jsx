@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Alert } from "../../components/SweetAlert";
 import { useNavigate } from "react-router-dom";
-import { TurmaService } from "../../api/turmaService";
+import { AulaService } from "../../api/aulaService";
 
-export default function TurmaList() {
+export default function AulaList() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,31 +17,14 @@ export default function TurmaList() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await TurmaService.getAll();
+      const response = await AulaService.getAulas();
       setData(response);
     } catch {
-      Alert.error("Erro", "Erro ao carregar turmas.");
+      Alert.error("Erro", "Erro ao carregar aulas.");
     } finally {
       setLoading(false);
     }
   };
-
-  // const handleDelete = async (id) => {
-  //   const confirm = await Alert.confirm(
-  //     "Excluir",
-  //     "Deseja excluir esta turma?"
-  //   );
-
-  //   if (!confirm.isConfirmed) return;
-
-  //   try {
-  //     await TurmaService.delete(id);
-  //     setData((prev) => prev.filter((item) => item.id !== id));
-  //     Alert.success("Excluído", "Turma removida.");
-  //   } catch {
-  //     Alert.error("Erro", "Erro ao excluir.");
-  //   }
-  // };
 
   const filteredData = data.filter((item) =>
     item.nome?.toLowerCase().includes(search.toLowerCase())
@@ -51,14 +33,14 @@ export default function TurmaList() {
   return (
     <Container>
       <Header>
-        <Title>Turmas</Title>
-        <CreateButton onClick={() => navigate("/turmas/novo")}>
-          + Nova Turma
+        <Title>Aulas</Title>
+        <CreateButton onClick={() => navigate("/aulas/novo")}>
+          + Nova Aula
         </CreateButton>
       </Header>
 
       <FilterInput
-        placeholder="Buscar turma..."
+        placeholder="Buscar aula..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -70,38 +52,29 @@ export default function TurmaList() {
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Ano Escolar</th>
-              <th>Ano Letivo</th>
-              <th>Período</th>
+              <th>Data</th>
+              <th>Matéria</th>
+              <th>Turma</th>
               <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
-
           <tbody>
             {filteredData.map((item) => (
               <tr key={item.id}>
                 <td>{item.nome}</td>
-                <td>{item.anoEscolar}</td>
-                <td>{item.anoLetivo}</td>
-                <td>{item.periodoId}</td>
-
+                <td>{new Date(item.dataAula).toLocaleDateString()}</td>
+                <td>{item.materia?.nome || "-"}</td>
+                <td>{item.turma?.nome || "-"}</td>
                 <td>
                   <Status $active={item.isAtivo}>
                     {item.isAtivo ? "Ativo" : "Inativo"}
                   </Status>
                 </td>
-
                 <td>
-                  <ActionButton
-                    onClick={() => navigate(`/turmas/${item.id}`)}
-                  >
+                  <ActionButton onClick={() => navigate(`/aulas/${item.id}`)}>
                     Editar
                   </ActionButton>
-
-                  {/* <DeleteButton onClick={() => handleDelete(item.id)}>
-                    Excluir
-                  </DeleteButton> */}
                 </td>
               </tr>
             ))}
@@ -119,15 +92,12 @@ const Container = styled.div`
   color: #fff;
   font-family: 'Manrope', sans-serif;
 `;
-
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 `;
-
 const Title = styled.h1``;
-
 const CreateButton = styled.button`
   background-color: #00A7C4;
   color: #fff;
@@ -137,7 +107,6 @@ const CreateButton = styled.button`
   cursor: pointer;
   height: 50px;
 `;
-
 const FilterInput = styled.input`
   width: 300px;
   padding: 10px;
@@ -146,38 +115,22 @@ const FilterInput = styled.input`
   border: none;
   outline:none;
 `;
-
 const Loading = styled.div`
   color: #aaa;
   padding: 20px;
 `;
-
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-
-  th {
-    text-align: left;
-    padding: 12px;
-    color: #aaa;
-  }
-
-  td {
-    padding: 12px;
-    border-top: 1px solid #222;
-  }
-
-  tr:hover {
-    background-color: #121826;
-  }
+  th { text-align: left; padding: 12px; color: #aaa; }
+  td { padding: 12px; border-top: 1px solid #222; }
+  tr:hover { background-color: #121826; }
 `;
-
 const Status = styled.span`
   padding: 6px 12px;
   border-radius: 20px;
   background-color: ${(p) => (p.$active ? "#36753C" : "#444")};
 `;
-
 const ActionButton = styled.button`
   margin-right: 10px;
   background-color: #0047C5;
@@ -185,14 +138,5 @@ const ActionButton = styled.button`
   border: none;
   padding: 6px 12px;
   border-radius: 5px;
-  cursor: pointer;
-`;
-
-const DeleteButton = styled.button`
-  background-color: #d33;
-  color: #fff;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
   cursor: pointer;
 `;

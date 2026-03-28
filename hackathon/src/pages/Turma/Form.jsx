@@ -177,8 +177,6 @@ export default function TurmaForm() {
   );
 }
 
-/* ===== STYLE ===== */
-
 const Container = styled.div`
   min-height: 100vh;
   background-color: #0b0c16;

@@ -12,6 +12,9 @@ import MateriaForm from './pages/Materia/Form';
 import TurmaList from './pages/Turma/List';
 import TurmaForm from './pages/Turma/Form';
 
+import AulaList from './pages/Aula/List';
+import AulaForm from './pages/Aula/Form';
+
 import ChatPage from './pages/Chat/Chat';
 
 import PrivateRoute from './components/PrivateRoutes';
@@ -53,6 +56,10 @@ function App() {
           <Route path="/turmas" element={<TurmaList />} />
           <Route path="/turmas/novo" element={<TurmaForm />} />
           <Route path="/turmas/:id" element={<TurmaForm />} />
+
+          <Route path="/aulas" element={<AulaList />} />
+          <Route path="/aulas/novo" element={<AulaForm />} />
+          <Route path="/aulas/:id" element={<AulaForm />} />
 
         </Route>
 

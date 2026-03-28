@@ -27,13 +27,12 @@ export default function Login() {
       const response = await AuthService.login(form);
 
       const token = response;
-      // console.log('response', token)
 
       AuthService.setToken(token);
 
       Alert.success("Sucesso", "Login realizado!");
 
-      navigate("/periodos"); //definir próxima página (ver com Cris)
+      navigate("/periodos");
     } catch (error) {
       Alert.error("Erro", "Credenciais inválidas");
     }
@@ -68,7 +67,11 @@ export default function Login() {
         </InputWrapper>
 
         <Button type="submit">Entrar</Button>
+
+        <TextCadastro onClick={() => navigate("/cadastro")}>Não possui conta? Cadastre-se</TextCadastro>
+
       </LoginCard>
+
     </Container>
   );
 }
@@ -118,6 +121,14 @@ const Title = styled.h1`
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 30px;
+`;
+
+const TextCadastro = styled.span`
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  margin-top: 25px;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
