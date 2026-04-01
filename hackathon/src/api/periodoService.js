@@ -20,4 +20,8 @@ export const PeriodoService = {
     const response = await api.put(`/periodo/${id}`, data);
     return response.data;
   },
+  delete: async (id) => {
+    const response = await api.delete(`/periodo/${id}`);
+    return response.data;
+  },
 };

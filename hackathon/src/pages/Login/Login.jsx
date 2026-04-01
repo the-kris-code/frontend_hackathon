@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import bgImage from '../../assets/background.png';
 import { AuthService } from '../../api/authService';
 import { Alert } from '../../components/SweetAlert';
+import Swal from 'sweetalert2'; 
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -23,16 +24,36 @@ export default function Login() {
       return;
     }
 
+    Swal.fire({
+      title: 'Entrando...',
+      text: 'Autenticando seus dados, aguarde.',
+      background: '#121826',
+      color: '#ffffff',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading(); 
+      }
+    });
+
     try {
       const response = await AuthService.login(form);
-
-      const token = response;
-
+      const token = response; 
       AuthService.setToken(token);
 
-      Alert.success("Sucesso", "Login realizado!");
+      Swal.fire({
+        icon: 'success',
+        title: 'Sucesso!',
+        text: 'Login realizado com sucesso!',
+        background: '#121826',
+        color: '#ffffff',
+        showConfirmButton: false,
+        timer: 1500, 
+        timerProgressBar: true
+      }).then(() => {
+        navigate("/chat");
+      });
 
-      navigate("/chat");
     } catch (error) {
       Alert.error("Erro", "Credenciais inválidas");
     }
@@ -43,12 +64,14 @@ export default function Login() {
       <LoginCard onSubmit={handleLogin}>
         <Title>Login</Title>
 
-        <Input
-          type="email"
-          placeholder="E-mail"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
+        <InputWrapper $isEmail>
+          <Input
+            type="email"
+            placeholder="E-mail"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+        </InputWrapper>
 
         <InputWrapper>
           <Input
@@ -68,10 +91,10 @@ export default function Login() {
 
         <Button type="submit">Entrar</Button>
 
-        <TextCadastro onClick={() => navigate("/cadastro")}>Não possui conta? Cadastre-se</TextCadastro>
-
+        <TextCadastro onClick={() => navigate("/cadastro")}>
+          Não possui conta? Cadastre-se
+        </TextCadastro>
       </LoginCard>
-
     </Container>
   );
 }
@@ -82,7 +105,6 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   background-color: #070813; 
-  
   position: relative; 
   z-index: 1; 
 
@@ -104,14 +126,18 @@ const Container = styled.div`
 
 const LoginCard = styled.form`
   background-color: #09071B; 
-  padding: 50px 40px;
-  border-radius: 8px;
+  padding: 40px 30px;
+  border-radius: 12px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 320px;
+  width: 90%; 
+  max-width: 400px; 
+
+  @media (max-width: 480px) {
+    padding: 30px 20px;
+  }
 `;
 
 const Title = styled.h1`
@@ -121,20 +147,26 @@ const Title = styled.h1`
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 30px;
+
+  @media (max-width: 480px) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 `;
 
-const TextCadastro = styled.span`
-  color: #ffffff;
-  font-family: 'Manrope', sans-serif;
-  font-size: 16px;
-  margin-top: 25px;
-  cursor: pointer;
+const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px; 
+
+  @media (max-width: 480px) {
+    margin-bottom: 15px;
+  }
 `;
 
 const Input = styled.input`
   width: 100%;
   padding: 14px;
-  margin-bottom: 20px;
   border-radius: 6px;
   border: none;
   font-size: 16px;
@@ -149,33 +181,54 @@ const Input = styled.input`
 const Button = styled.button`
   background-color: #00A7C4; 
   color: #ffffff;
-  padding: 12px 0;
+  padding: 14px 0; 
   margin-top: 10px;
   border: none;
   border-radius: 6px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  width: 60%; 
+  width: 100%; 
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: #0096B0; 
+    background-color: #008fa8; 
   }
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-  width: 100%;
 `;
 
 const EyeButton = styled.button`
   position: absolute;
-  right: 10px;
-  top: 40%;
+  right: 12px;
+  top: 50%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
   cursor: pointer;
   font-size: 18px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px; 
+  
+  &:hover {
+    color: #333;
+  }
+`;
+
+const TextCadastro = styled.span`
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  margin-top: 25px;
+  cursor: pointer;
+  text-align: center;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
 `;

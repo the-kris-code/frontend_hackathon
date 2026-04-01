@@ -134,6 +134,11 @@ const Header = styled.div`
   align-items: center;
   gap: 20px;
   padding: 30px 40px;
+
+  @media (max-width: 480px) {
+    padding: 20px;
+    gap: 15px;
+  }
 `;
 
 const BackButton = styled.button`
@@ -144,12 +149,20 @@ const BackButton = styled.button`
   cursor: pointer;
   font-family: 'Manrope', sans-serif;
   font-weight: 600;
-  &:hover { text-decoration: underline; }
+  padding: 0;
+
+  &:hover { 
+    text-decoration: underline; 
+  }
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 
 const LoadingText = styled.div`
@@ -163,6 +176,10 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
+
+  @media (max-width: 480px) {
+    padding: 15px;
+  }
 `;
 
 const ProfileCard = styled.div`
@@ -172,6 +189,11 @@ const ProfileCard = styled.div`
   border-radius: 16px;
   padding: 40px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 30px 20px;
+  }
 `;
 
 const AvatarSection = styled.div`
@@ -194,12 +216,23 @@ const Avatar = styled.div`
   color: #fff;
   margin-bottom: 15px;
   box-shadow: 0px 4px 10px rgba(0, 167, 196, 0.3);
+
+  @media (max-width: 480px) {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+  }
 `;
 
 const Name = styled.h2`
   margin: 0;
   font-size: 22px;
   color: #fff;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 
 const Role = styled.span`
@@ -207,6 +240,7 @@ const Role = styled.span`
   color: #00A7C4;
   font-size: 14px;
   font-weight: 600;
+  text-align: center;
 `;
 
 const Divider = styled.hr`
@@ -222,6 +256,7 @@ const InfoGrid = styled.div`
 
   @media (max-width: 500px) {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 `;
 
@@ -245,6 +280,11 @@ const Value = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  word-break: break-word;
+
+  @media (max-width: 480px) {
+    font-size: 15px;
+  }
 `;
 
 const AgeTag = styled.span`
@@ -253,6 +293,7 @@ const AgeTag = styled.span`
   border-radius: 12px;
   font-size: 12px;
   color: #bbb;
+  white-space: nowrap;
 `;
 
 const StatusBadge = styled.div`

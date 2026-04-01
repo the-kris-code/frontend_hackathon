@@ -194,14 +194,18 @@ const Container = styled.div`
 
 const CadastroCard = styled.form`
   background-color: #09071B; 
-  padding: 50px 40px;
-  border-radius: 8px;
+  padding: 40px 30px;
+  border-radius: 12px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  max-width: 320px;
+  width: 90%;
+  max-width: 400px;
+
+  @media (max-width: 480px) {
+    padding: 30px 20px;
+  }
 `;
 
 const Title = styled.h1`
@@ -211,6 +215,11 @@ const Title = styled.h1`
   font-weight: 600;
   margin-top: 0;
   margin-bottom: 30px;
+
+  @media (max-width: 480px) {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 `;
 
 const Input = styled.input`
@@ -226,19 +235,23 @@ const Input = styled.input`
   &:focus {
     outline: 2px solid #00A7C4;
   }
+
+  @media (max-width: 480px) {
+    margin-bottom: 15px;
+  }
 `;
 
 const Button = styled.button`
   background-color: ${(p) => p.disabled ? '#555' : '#00A7C4'}; 
   color: #ffffff;
-  padding: 12px 0;
+  padding: 14px 0;
   margin-top: 10px;
   border: none;
   border-radius: 6px;
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: ${(p) => p.disabled ? 'not-allowed' : 'pointer'};
-  width: 60%; 
+  width: 100%; 
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
@@ -249,21 +262,31 @@ const Button = styled.button`
 const ButtonsRow = styled.div`
   display: flex;
   width: 100%;
-  gap: 10px;
+  gap: 15px;
   justify-content: space-between;
+  
   button {
     width: 100%; 
+  }
+
+  @media (max-width: 480px) {
+    gap: 10px;
   }
 `;
 
 const TextLogin = styled.span`
   color: #ffffff;
   font-family: 'Manrope', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   margin-top: 25px;
   cursor: pointer;
+  text-align: center;
   
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
   }
 `;

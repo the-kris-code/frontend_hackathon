@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Alert } from "../../components/SweetAlert";
 import { useNavigate, useParams } from "react-router-dom";
 import { PeriodoService } from "../../api/periodoService";
+
 export default function PeriodoForm() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -95,6 +96,18 @@ export default function PeriodoForm() {
     }
   };
 
+  const handleDelete = async () => {
+    const confirm = await Alert.confirm(
+      "Desabilitar",
+      "Deseja Desabilitar o periodo?"
+    );
+
+    if (confirm.isConfirmed) {
+      await PeriodoService.delete(id);
+      navigate("/periodos");
+    }
+  };
+
   return (
     <Container>
       <Header>
@@ -115,7 +128,7 @@ export default function PeriodoForm() {
           </FormGroup>
 
           <Row>
-            <FormGroup>
+            <FormGroup style={{ flex: 1 }}>
               <Label>Horário Início</Label>
               <Input
                 type="time"
@@ -126,7 +139,7 @@ export default function PeriodoForm() {
               />
             </FormGroup>
 
-            <FormGroup>
+            <FormGroup style={{ flex: 1 }}>
               <Label>Horário Fim</Label>
               <Input
                 type="time"
@@ -153,7 +166,9 @@ export default function PeriodoForm() {
             <CancelButton type="button" onClick={handleCancel}>
               Cancelar
             </CancelButton>
-
+            <DeleteButton type="button" onClick={handleDelete}>
+              Desabilitar
+            </DeleteButton>
             <SaveButton type="submit" disabled={loading}>
               {loading ? "Salvando..." : isEdit ? "Salvar" : "Cadastrar"}
             </SaveButton>
@@ -175,6 +190,13 @@ const Header = styled.div`
   align-items: center;
   gap: 20px;
   padding: 30px 40px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 10px;
+  }
 `;
 
 const BackButton = styled.button`
@@ -183,11 +205,21 @@ const BackButton = styled.button`
   color: #00A7C4;
   font-size: 16px;
   cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const Title = styled.h1`
   color: #fff;
   font-size: 22px;
+  margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `;
 
 const Content = styled.div`
@@ -200,10 +232,16 @@ const Form = styled.form`
   background-color: #121826;
   padding: 40px;
   border-radius: 16px;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 480px) {
+    padding: 25px 20px;
+  }
 `;
 
 const FormGroup = styled.div`
@@ -222,11 +260,19 @@ const Input = styled.input`
   border-radius: 8px;
   border: none;
   outline: none;
+  box-sizing: border-box;
+  width: 100%;
 `;
 
 const Row = styled.div`
   display: flex;
   gap: 16px;
+  width: 100%;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 `;
 
 const CheckboxRow = styled.div`
@@ -240,22 +286,51 @@ const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    gap: 15px;
+    margin-top: 10px;
+  }
 `;
 
 const SaveButton = styled.button`
   background-color: #00A7C4;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 8px;
-  cursor: pointer;
+  cursor: ${(p) => (p.disabled ? "not-allowed" : "pointer")};
+  font-weight: 600;
+  opacity: ${(p) => (p.disabled ? 0.7 : 1)};
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const CancelButton = styled.button`
   background-color: #333;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`;
+
+const DeleteButton = styled.button`
+  background-color: #d33;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
