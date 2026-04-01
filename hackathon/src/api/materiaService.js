@@ -21,8 +21,8 @@ export const MateriaService = {
     return response.data;
   },
 
-  // delete: async (id) => {
-  //   const response = await api.delete(`/materia/${id}`);
-  //   return response.data;
-  // },
+  delete: async (id) => {
+    const response = await api.delete(`/materia/${id}`);
+    return response.data;
+  },
 };

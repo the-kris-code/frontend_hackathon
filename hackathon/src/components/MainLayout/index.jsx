@@ -11,10 +11,17 @@ export default function MainLayout({ children }) {
 }
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   background-color: #0b0c16;
   min-height: 100vh;
+  width: 100%;
 `;
 
-const Content = styled.div`
-  // padding-top: 20px;
+const Content = styled.main`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
 `;

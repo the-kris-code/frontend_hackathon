@@ -53,5 +53,21 @@ export const ChronosService = {
       }
     );
     return response.data;
+  },
+
+  async getConversas() {
+    const token = AuthService.getToken();
+    const response = await api.get("/chronos/conversas", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  },
+
+  async getFiltros() {
+    const token = AuthService.getToken(); 
+    const response = await api.get("/habilidades/filtros", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
   }
 };

@@ -41,13 +41,13 @@ export const TurmaService = {
     }
   },
 
-  // async delete(id) {
-  //   try {
-  //     const response = await api.delete(`/turma/${id}`);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error("Erro ao excluir turma:", error);
-  //     throw error;
-  //   }
-  // },
+  async delete(id) {
+    try {
+      const response = await api.delete(`/turma/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao excluir turma:", error);
+      throw error;
+    }
+  },
 };

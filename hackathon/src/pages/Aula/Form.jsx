@@ -127,6 +127,18 @@ export default function AulaForm() {
     }
   };
 
+  const handleDelete = async () => {
+    const confirm = await Alert.confirm(
+      "Excluir",
+      "Deseja excluir a aula?"
+    );
+
+    if (confirm.isConfirmed) {
+      await AulaService.delete(id);
+      navigate("/aulas");
+    }
+  };
+
   return (
     <Container>
       <Header>
@@ -205,6 +217,9 @@ export default function AulaForm() {
 
           <ButtonRow>
             <CancelButton type="button" onClick={() => navigate("/aulas")}>Cancelar</CancelButton>
+            <DeleteButton type="button" onClick={handleDelete}>
+              Excluir
+            </DeleteButton>
             <SaveButton type="submit">{isEdit ? "Salvar Alterações" : "Cadastrar Aula"}</SaveButton>
           </ButtonRow>
         </Form>
@@ -218,54 +233,156 @@ const Container = styled.div`
   background-color: #0b0c16;
   font-family: 'Manrope', sans-serif;
 `;
+
 const Header = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
   padding: 30px 40px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    gap: 10px;
+  }
 `;
+
 const BackButton = styled.button`
   background: none;
   border: none;
   color: #00A7C4;
   font-size: 16px;
   cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
-const Title = styled.h1` color: #fff; font-size: 22px; `;
-const Content = styled.div` display: flex; justify-content: center; padding: 20px; `;
+
+const Title = styled.h1`
+  color: #fff;
+  font-size: 22px;
+  margin: 0;
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
+`;
+
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+`;
+
 const Form = styled.form`
   background-color: #121826;
   padding: 40px;
   border-radius: 16px;
-  width: 500px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 480px) {
+    padding: 25px 20px;
+  }
 `;
-const FormGroup = styled.div` display: flex; flex-direction: column; `;
-const Label = styled.label` color: #aaa; margin-bottom: 6px; font-size: 14px; `;
-const Input = styled.input` padding: 12px; border-radius: 8px; border: none; outline: none; background-color: #fff;`;
-const Select = styled.select` padding: 12px; border-radius: 8px; border: none; outline: none; background-color: #fff;`;
-const TextArea = styled.textarea` padding: 12px; border-radius: 8px; border: none; outline: none; resize: vertical; background-color: #fff; font-family: 'Manrope', sans-serif; line-height: 1.5;`;
-const CheckboxRow = styled.div` display: flex; align-items: center; gap: 8px; color: #fff; `;
-const ButtonRow = styled.div` display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.label`
+  color: #aaa;
+  margin-bottom: 6px;
+  font-size: 14px;
+`;
+
+const Input = styled.input`
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  box-sizing: border-box;
+  width: 100%;
+`;
+
+const Select = styled.select`
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  box-sizing: border-box;
+  width: 100%;
+`;
+
+const TextArea = styled.textarea`
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  background-color: #fff;
+  font-family: 'Manrope', sans-serif;
+  line-height: 1.5;
+  box-sizing: border-box;
+  width: 100%;
+`;
+
+const CheckboxRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+`;
+
+const ButtonRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    gap: 15px;
+  }
+`;
+
 const SaveButton = styled.button`
   background-color: #00A7C4;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
+
 const CancelButton = styled.button`
   background-color: #333;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 8px;
   cursor: pointer;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
+
 const GeneratePlanoButton = styled.button`
   background-color: #4B3A71;
   color: #fff;
@@ -277,6 +394,26 @@ const GeneratePlanoButton = styled.button`
   font-size: 14px;
   font-weight: 600;
   transition: opacity 0.2s;
-  &:disabled { opacity: 0.6; cursor: not-allowed; }
-  &:hover:not(:disabled) { opacity: 0.9; }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+`;
+
+const DeleteButton = styled.button`
+  background-color: #d33;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
