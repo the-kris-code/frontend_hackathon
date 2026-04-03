@@ -40,6 +40,16 @@ export default function ChatPage() {
     return `${day} às ${time}`;
   };
 
+  const getPersistedConversaId = (chatId) => {
+    if (!chatId) return undefined;
+
+    const chatIdStr = String(chatId);
+    if (chatIdStr.startsWith("temp-")) return undefined;
+
+    const parsed = Number(chatIdStr);
+    return Number.isFinite(parsed) ? parsed : undefined;
+  };
+
 useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -155,7 +165,7 @@ useEffect(() => {
     let currentChatId = activeChatId;
 
     if (!currentChatId) {
-      currentChatId = Date.now().toString();
+      currentChatId = `temp-${Date.now()}`;
       const shortTitle = userText.length > 25 ? userText.substring(0, 30) + '...' : userText;
 
       const newChat = { id: currentChatId, title: shortTitle, aulaId: selectedAula, messages: [newUserMsg] };
@@ -172,7 +182,12 @@ useEffect(() => {
     setIsTyping(true);
 
     try {
-      const data = await ChronosService.conversar(Number(selectedAula), userText);
+      const data = await ChronosService.conversar(
+        Number(selectedAula),
+        userText,
+        getPersistedConversaId(currentChatId)
+      );
+      const resolvedChatId = String(data.conversaId || currentChatId);
       const aiResponse = {
         id: Date.now() + 1,
         text: data.resposta || "Resposta recebida, mas em formato inesperado.",
@@ -183,8 +198,11 @@ useEffect(() => {
 
       setMessages((prev) => [...prev, aiResponse]);
       setChatHistory(prev => prev.map(chat => 
-        chat.id === currentChatId ? { ...chat, messages: [...chat.messages, aiResponse] } : chat
+        chat.id === currentChatId
+          ? { ...chat, id: resolvedChatId, messages: [...chat.messages, aiResponse] }
+          : chat
       ));
+      setActiveChatId(resolvedChatId);
     } catch (error) {
       const errorText = error.response?.status === 401 ? "Sua sessão expirou." : "Erro de conexão.";
       const errorMsg = { id: Date.now(), text: errorText, sender: "ai" };
@@ -222,7 +240,7 @@ useEffect(() => {
     let currentChatId = activeChatId;
 
     if (!currentChatId) {
-      currentChatId = Date.now().toString();
+      currentChatId = `temp-${Date.now()}`;
       const shortTitle = temaAtividade.length > 25 ? temaAtividade.substring(0, 25) + '...' : temaAtividade;
 
       const newChat = { id: currentChatId, title: shortTitle, aulaId: selectedAula, messages: [newUserMsg] };
@@ -240,8 +258,10 @@ useEffect(() => {
       const data = await ChronosService.gerarAtividade(
         Number(selectedAula), 
         selectedHabilidade, 
-        temaAtividade
+        temaAtividade,
+        getPersistedConversaId(currentChatId)
       );
+      const resolvedChatId = String(data?.conversaId || currentChatId);
 
       let conteudoAtividade = "Atividade gerada com sucesso!";
 
@@ -292,8 +312,11 @@ useEffect(() => {
       setMessages((prev) => [...prev, aiResponse]);
       
       setChatHistory(prev => prev.map(chat => 
-        chat.id === currentChatId ? { ...chat, messages: [...chat.messages, aiResponse] } : chat
+        chat.id === currentChatId
+          ? { ...chat, id: resolvedChatId, messages: [...chat.messages, aiResponse] }
+          : chat
       ));
+      setActiveChatId(resolvedChatId);
 
     } catch (error) {
       const errorMsg = { id: Date.now() + 1, text: "Erro ao gerar a atividade.", sender: "ai" };

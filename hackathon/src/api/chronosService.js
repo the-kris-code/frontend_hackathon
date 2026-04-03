@@ -2,13 +2,14 @@ import api from "./api";
 import { AuthService } from "./authService";
 
 export const ChronosService = {
-  async conversar(aulaId, mensagem) {
+  async conversar(aulaId, mensagem, conversaId) {
     const token = AuthService.getToken();
     const response = await api.post(
       "/chronos/conversar", 
       {
         aulaId: aulaId,
-        mensagem: mensagem
+        mensagem: mensagem,
+        ...(conversaId ? { conversaId } : {})
       },
       {
         headers: {
@@ -19,14 +20,15 @@ export const ChronosService = {
     return response.data;
   },
 
-  async gerarAtividade(aulaId, codigoHabilidade, tema) {
+  async gerarAtividade(aulaId, codigoHabilidade, tema, conversaId) {
     const token = AuthService.getToken();
     const response = await api.post(
       "/chronos/gerar-atividade",
       {
         aulaId: aulaId,
         codigoHabilidade: codigoHabilidade,
-        tema: tema
+        tema: tema,
+        ...(conversaId ? { conversaId } : {})
       },
       {
         headers: {
